@@ -1,6 +1,8 @@
 <?php
 
-class MGDEV_Widget extends WP_Widget
+namespace App;
+
+class MgDevWidget extends WP_Widget
 {
 
     public function __construct()

@@ -20,7 +20,10 @@
  * @package     MgDev/includes
  * @author    Mauro Gaitan Souvaje <maurogaitansouvaje@gmail.com>
  */
-class MGDEV_i18n
+
+namespace App;
+
+class MgDevI18n
 {
 
     /**

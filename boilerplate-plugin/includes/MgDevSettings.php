@@ -1,6 +1,8 @@
 <?php
 
-class MGDEV_Settings
+namespace App;
+
+class MgDevSettings
 {
 
     public function init()

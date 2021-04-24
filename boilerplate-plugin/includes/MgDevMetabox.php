@@ -20,7 +20,10 @@
  * @package     MgDev/includes
  * @author    Mauro Gaitan Souvaje <maurogaitansouvaje@gmail.com>
  */
-abstract class MGDEV_Metabox
+
+namespace App;
+
+abstract class MgDevMetabox
 {
 
     /**

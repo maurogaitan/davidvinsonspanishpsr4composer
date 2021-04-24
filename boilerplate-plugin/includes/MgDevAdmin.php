@@ -6,8 +6,8 @@
  * @link       https://maurogaitandev.com
  * @since      1.0.0
  *
- * @package    plugin_name
- * @subpackage plugin_name/admin
+ * @package    MgDev
+ * @subpackage MgDev/admin
  */
 
 /**
@@ -22,7 +22,10 @@
  * @property string $plugin_name
  * @property string $version
  */
-class MGDEV_Public
+
+namespace App;
+
+class MgDevAdmin
 {
 
     /**
@@ -50,8 +53,8 @@ class MGDEV_Public
     public function __construct($plugin_name, $version)
     {
 
-        $this->plugin_name  = $plugin_name;
-        $this->version      = $version;
+        $this->plugin_name = $plugin_name;
+        $this->version = $version;
     }
 
     /**
@@ -65,14 +68,14 @@ class MGDEV_Public
 
         /**
          * Una instancia de esta clase debe pasar a la función run()
-         * definido en MGDEV_Cargador como todos los ganchos se definen
+         * definido en MgDevLoadercomo todos los ganchos se definen
          * en esa clase particular.
          *
-         * El MGDEV_Cargador creará la relación
+         * El MgDevLoadercreará la relación
          * entre los ganchos definidos y las funciones definidas en este
          * clase.
          */
-        wp_enqueue_style($this->plugin_name, PLUGIN_DIR_URL . 'public/css/mgdev-admin.css', array(), $this->version, 'all');
+        wp_enqueue_style($this->plugin_name, MGDEV_PLUGIN_DIR_URL . 'admin/css/mgdev-admin.css', array(), $this->version, 'all');
     }
 
     /**
@@ -86,13 +89,13 @@ class MGDEV_Public
 
         /**
          * Una instancia de esta clase debe pasar a la función run()
-         * definido en MGDEV_Cargador como todos los ganchos se definen
+         * definido en MgDevLoadercomo todos los ganchos se definen
          * en esa clase particular.
          *
-         * El MGDEV_Cargador creará la relación
+         * El MgDevLoadercreará la relación
          * entre los ganchos definidos y las funciones definidas en este
          * clase.
          */
-        wp_enqueue_script($this->plugin_name, PLUGIN_DIR_URL . 'public/js/mgdev-admin.js', array('jquery'), $this->version, true);
+        wp_enqueue_script($this->plugin_name, MGDEV_PLUGIN_DIR_URL . 'admin/js/mgdev-admin.js', ['jquery'], $this->version, true);
     }
 }

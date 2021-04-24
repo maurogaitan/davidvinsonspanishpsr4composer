@@ -22,22 +22,32 @@
  * @package     MgDev/includes
  * @author    Mauro Gaitan Souvaje <maurogaitansouvaje@gmail.com>
  * 
- * @property object $cargador
+ * @property object $loader
  * @property string $plugin_name
  * @property string $version
  */
-class MGDEV_Master
+
+namespace App;
+
+
+
+use App\MgDevLoader;
+use App\MgDevI18n;
+use App\MgDevAdmin;
+use App\MgDevPublic;
+
+class MgDevMaster
 {
 
 	/**
-	 * El cargador que es responsable de mantener y registrar
+	 * El loader que es responsable de mantener y registrar
 	 * todos los ganchos (hooks) que alimentan el plugin.
 	 *
 	 * @since    1.0.0
 	 * @access   protected
-	 * @var      MGDEV_Cargador    $cargador  Mantiene y registra todos los ganchos ( Hooks ) del plugin
+	 * @var      MgDevLoader   $loader  Mantiene y registra todos los ganchos ( Hooks ) del plugin
 	 */
-	protected $cargador;
+	protected $loader;
 
 	/**
 	 * El identificador único de éste plugin
@@ -88,9 +98,9 @@ class MGDEV_Master
 	 * Incluya los siguientes archivos que componen el plugin:
 	 *
 	 * - MGDEV_Cargador. Itera los ganchos del plugin.
-	 * - MGDEV_i18n. Define la funcionalidad de la internacionalización
-	 * - MGDEV_Admin. Define todos los ganchos del área de administración.
-	 * - MGDEV_Public. Define todos los ganchos del del cliente/público.
+	 * - MgDevI18n. Define la funcionalidad de la internacionalización
+	 * - MgDevAdmin. Define todos los ganchos del área de administración.
+	 * - MgDevPublic. Define todos los ganchos del del cliente/público.
 	 *
 	 * @since    1.0.0
 	 * @access   private
@@ -98,34 +108,24 @@ class MGDEV_Master
 	private function cargar_dependencias()
 	{
 
-		/**
-		 * La clase responsable de iterar las acciones y filtros del núcleo del plugin.
-		 */
-		require_once MGDEV_PLUGIN_DIR_PATH . 'includes/class-mgdev-cargador.php';
 
-		/**
-		 * La clase responsable de definir la funcionalidad de la
-		 * internacionalización del plugin
-		 */
-		require_once MGDEV_PLUGIN_DIR_PATH . 'includes/class-mgdev-i18n.php';
+		//require_once MGDEV_PLUGIN_DIR_PATH . 'includes/MgDevLoader.php';
 
-		/**
-		 * La clase responsable de definir todas las acciones en el
-		 * área de administración
-		 */
-		require_once MGDEV_PLUGIN_DIR_PATH . 'admin/class-mgdev-admin.php';
+
+
+		//require_once MGDEV_PLUGIN_DIR_PATH . 'admin/MgDevAdmin.php';
 
 		/**
 		 * La clase responsable de definir todas las acciones en el
 		 * área del lado del cliente/público
 		 */
-		require_once MGDEV_PLUGIN_DIR_PATH . 'public/class-mgdev-public.php';
+		//require_once MGDEV_PLUGIN_DIR_PATH . 'public/MgDevPublic.php';
 	}
 
 	/**
 	 * Defina la configuración regional de este plugin para la internacionalización.
 	 *
-	 * Utiliza la clase MGDEV_i18n para establecer el dominio y registrar el gancho
+	 * Utiliza la clase MgDevI18n para establecer el dominio y registrar el gancho
 	 * con WordPress.
 	 *
 	 * @since    1.0.0
@@ -133,9 +133,12 @@ class MGDEV_Master
 	 */
 	private function set_idiomas()
 	{
-
-		$mgdev_i18n = new MGDEV_i18n();
-		$this->cargador->add_action('plugins_loaded', $mgdev_i18n, 'load_plugin_textdomain');
+		/**
+		 * La clase responsable de definir la funcionalidad de la
+		 * internacionalización del plugin
+		 */
+		$mgdev_i18n = new MgDevI18n();
+		$this->loader->add_action('plugins_loaded', $mgdev_i18n, 'load_plugin_textdomain');
 	}
 
 	/**
@@ -147,11 +150,13 @@ class MGDEV_Master
 	 */
 	private function cargar_instancias()
 	{
-
-		// Cree una instancia del cargador que se utilizará para registrar los ganchos con WordPress.
-		$this->cargador     = new MGDEV_cargador;
-		$this->mgdev_admin     = new MGDEV_Admin($this->get_plugin_name(), $this->get_version());
-		$this->mgdev_public    = new MGDEV_Public($this->get_plugin_name(), $this->get_version());
+		/**
+		 * MgDevLoader La clase responsable de iterar las acciones y filtros del núcleo del plugin.
+		 */
+		// Cree una instancia del loader que se utilizará para registrar los ganchos con WordPress.
+		$this->loader     = new MgDevLoader;
+		$this->mgdev_admin     = new MgDevAdmin($this->get_plugin_name(), $this->get_version());
+		$this->mgdev_public    = new MgDevPublic($this->get_plugin_name(), $this->get_version());
 	}
 
 	/**
@@ -164,8 +169,8 @@ class MGDEV_Master
 	private function definir_admin_hooks()
 	{
 
-		$this->cargador->add_action('admin_enqueue_scripts', $this->mgdev_admin, 'enqueue_styles');
-		$this->cargador->add_action('admin_enqueue_scripts', $this->mgdev_admin, 'enqueue_scripts');
+		$this->loader->add_action('admin_enqueue_scripts', $this->mgdev_admin, 'enqueue_styles');
+		$this->loader->add_action('admin_enqueue_scripts', $this->mgdev_admin, 'enqueue_scripts');
 	}
 
 	/**
@@ -178,19 +183,19 @@ class MGDEV_Master
 	private function definir_public_hooks()
 	{
 
-		$this->cargador->add_action('wp_enqueue_scripts', $this->mgdev_public, 'enqueue_styles');
-		$this->cargador->add_action('wp_enqueue_scripts', $this->mgdev_public, 'enqueue_scripts');
+		$this->loader->add_action('wp_enqueue_scripts', $this->mgdev_public, 'enqueue_styles');
+		$this->loader->add_action('wp_enqueue_scripts', $this->mgdev_public, 'enqueue_scripts');
 	}
 
 	/**
-	 * Ejecuta el cargador para ejecutar todos los ganchos con WordPress.
+	 * Ejecuta el loader para ejecutar todos los ganchos con WordPress.
 	 *
 	 * @since    1.0.0
 	 * @access   public
 	 */
 	public function run()
 	{
-		$this->cargador->run();
+		$this->loader->run();
 	}
 
 	/**
@@ -211,11 +216,11 @@ class MGDEV_Master
 	 *
 	 * @since     1.0.0
 	 * @access    public
-	 * @return    MGDEV_Cargador    Itera los ganchos del plugin.
+	 * @return    MgDevLoader   Itera los ganchos del plugin.
 	 */
-	public function get_cargador()
+	public function get_loader()
 	{
-		return $this->cargador;
+		return $this->loader;
 	}
 
 	/**

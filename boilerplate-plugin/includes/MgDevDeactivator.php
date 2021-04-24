@@ -19,7 +19,9 @@
  * @author    Mauro Gaitan Souvaje <maurogaitansouvaje@gmail.com>
  */
 
-class MGDEV_Deactivator
+namespace App;
+
+class MgDevDeactivator
 {
 
 	/**

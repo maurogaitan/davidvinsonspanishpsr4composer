@@ -25,7 +25,10 @@
  * @property array $actions
  * @property array $filters
  */
-class MGDEV_Cargador
+
+namespace App;
+
+class MgDevLoader
 {
 
 	/**

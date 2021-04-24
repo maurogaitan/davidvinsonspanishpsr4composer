@@ -1,6 +1,8 @@
 <?php
 
-class MGDEV_CPT
+namespace App;
+
+class MgDevCpt
 {
 
     public function mgdev()

@@ -24,7 +24,10 @@
  * @property array $menus
  * @property array $submenus
  */
-class MGDEV_Build_Menupage
+
+namespace App;
+
+class MgDevBuildMenupage
 {
 
 	/**

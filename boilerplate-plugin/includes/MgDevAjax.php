@@ -18,7 +18,10 @@
  * @package     MgDev/includes
  * @author    Mauro Gaitan Souvaje <maurogaitansouvaje@gmail.com>
  */
-class MGDEV_Ajax
+
+namespace App;
+
+class MgDevAjax
 {
 
     /**

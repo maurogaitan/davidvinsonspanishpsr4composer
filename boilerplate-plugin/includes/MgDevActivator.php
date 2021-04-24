@@ -18,7 +18,10 @@
  * @package     MgDev/includes
  * @author    Mauro Gaitan Souvaje <maurogaitansouvaje@gmail.com>
  */
-class MGDEV_Activator
+
+namespace App;
+
+class MgDevActivator
 {
 
 	/**
